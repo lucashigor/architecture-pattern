@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Tier.Business;
 using Tier.Entities;
+using Tier.Service;
 
 namespace Tiers.Web.Controllers
 {
     public class PersonController : ApiController
     {
-        IPersonBusiness personBusiness;
+        IPersonService personService;
 
-            public PersonController(IPersonBusiness _personBusiness)
+            public PersonController(IPersonService _personService)
         {
-            personBusiness = _personBusiness;
+            personService = _personService;
         }
         // GET: api/Person
         public IEnumerable<Person> Get()
         {
-            return personBusiness.GetCollection();
+            return personService.GetCollection();
         }
 
         // GET: api/Person/5
@@ -30,8 +26,9 @@ namespace Tiers.Web.Controllers
         }
 
         // POST: api/Person
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Person value)
         {
+            personService.SavePerson(value);
         }
 
         // PUT: api/Person/5

@@ -34,13 +34,18 @@ namespace UnitTests
         [Fact]
         public void ValidateAvancedAge_ParticipanteDentroDaIdade_test()
         {
+            _personRepository = new Mock<IPersonRepository>();
+            
             var app = new PersonBusiness(_personRepository.Object);
 
             var person = new Person()
             {
+                Id = 1,
                 Name = "Usuario 1",
                 BirthDay = DateTime.Today.AddYears(-(Parameters.warning_max_age + 1))
             };
+
+            _personRepository.Setup(x => x.Create(It.IsAny<Person>())).Returns(person);
 
             BusinessException ex = Assert.Throws<BusinessException>(() => app.SavePerson(person));
 

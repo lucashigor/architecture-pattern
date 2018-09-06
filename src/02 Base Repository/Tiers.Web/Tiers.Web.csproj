@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.3.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.3.0\lib\net45\SimpleInjector.dll</HintPath>
@@ -112,13 +118,13 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tier.Business\Tier.Business.csproj">
-      <Project>{EE64EB6E-D62E-4216-B4A0-2EEC3CA7792D}</Project>
-      <Name>Tier.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tier.Entities\Tier.Entities.csproj">
       <Project>{284BD69B-8C15-478A-826D-040AC9A38905}</Project>
       <Name>Tier.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tier.Service\Tier.Service.csproj">
+      <Project>{610C7CD1-0433-43F3-BD86-5CF2DBB05CB4}</Project>
+      <Name>Tier.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tiers.CrossCutting\Tiers.CrossCutting.csproj">
       <Project>{4CDCC256-6B52-413B-8187-2CA104C8E716}</Project>

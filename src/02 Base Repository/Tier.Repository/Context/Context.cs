@@ -14,7 +14,7 @@ namespace Tier.Repository
         }
 
         public Context() 
-            : base("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\Projetos\\GitHub\\architecturepattern\\src\\02 Base Repository\\Globalmantics.mdf\";Integrated Security=True;Connect Timeout=30")
+            : base("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\Globalmantics.mdf\";Integrated Security=True;Connect Timeout=30")
         {
             Database.SetInitializer<Context>(new CreateDatabaseIfNotExists<Context>());
         }

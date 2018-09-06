@@ -1,15 +1,21 @@
-﻿using Tier.Business;
+﻿using System.Collections.Generic;
+using Tier.Business;
 using Tier.Entities;
 
 namespace Tier.Service
 {
-    public class PersonServices
+    public class PersonService : IPersonService
     {
         IPersonBusiness _personBusiness;
 
-        public PersonServices(IPersonBusiness personBusiness)
+        public PersonService(IPersonBusiness personBusiness)
         {
             _personBusiness = personBusiness;
+        }
+
+        public ICollection<Person> GetCollection()
+        {
+            return _personBusiness.GetCollection();
         }
 
         public Person SavePerson(Person person)

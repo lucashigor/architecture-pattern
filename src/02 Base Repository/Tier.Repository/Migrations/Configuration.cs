@@ -9,7 +9,7 @@ namespace Tier.Repository.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Tier.Repository.Context context)
