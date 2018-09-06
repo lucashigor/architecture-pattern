@@ -12,5 +12,10 @@ namespace Tier.Repository
         {
             return Get(x => x.Cpf == cpf);
         }
+
+        public void DeleteByCpf(string cpf)
+        {
+            Delete(x => x.Cpf.Equals(cpf));
+        }
     }
 }

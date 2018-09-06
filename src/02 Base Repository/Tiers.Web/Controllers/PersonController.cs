@@ -20,9 +20,9 @@ namespace Tiers.Web.Controllers
         }
 
         // GET: api/Person/5
-        public string Get(int id)
+        public Person Get(int id)
         {
-            return "value";
+            return personService.Get(id);
         }
 
         // POST: api/Person
@@ -39,6 +39,13 @@ namespace Tiers.Web.Controllers
         // DELETE: api/Person/5
         public void Delete(int id)
         {
+            personService.DeletePerson(id);
+        }
+
+        // DELETE: api/Person/5
+        public void Delete(Person value)
+        {
+            personService.DeletePerson(value);
         }
     }
 }

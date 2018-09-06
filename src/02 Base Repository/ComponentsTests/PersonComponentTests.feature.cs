@@ -80,11 +80,11 @@ namespace ComponentsTests
         [Xunit.FactAttribute(DisplayName="Inclusão de um participante")]
         [Xunit.TraitAttribute("FeatureTitle", "PersonComponentTest")]
         [Xunit.TraitAttribute("Description", "Inclusão de um participante")]
-        [Xunit.TraitAttribute("Category", "mytag")]
+        [Xunit.TraitAttribute("Category", "Participante")]
         public virtual void InclusaoDeUmParticipante()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Inclusão de um participante", null, new string[] {
-                        "mytag"});
+                        "Participante"});
 #line 9
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -98,11 +98,41 @@ this.ScenarioInitialize(scenarioInfo);
                         "23/02/1993",
                         "42568042850"});
 #line 10
- testRunner.Given("Eu tenha inserido um participante com mais de 50 anos:", ((string)(null)), table1, "Dado ");
+ testRunner.Given("Eu tenha inserido um participante com mais idade não permitida:", ((string)(null)), table1, "Dado ");
 #line 13
- testRunner.When("Eu envio ocorre um erro", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
+ testRunner.When("Eu envio Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line 14
- testRunner.Then("eh isso ai", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Entao ");
+ testRunner.Then("Um erro deve ocorrer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Entao ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Deleção de um Participante")]
+        [Xunit.TraitAttribute("FeatureTitle", "PersonComponentTest")]
+        [Xunit.TraitAttribute("Description", "Deleção de um Participante")]
+        [Xunit.TraitAttribute("Category", "Participante")]
+        public virtual void DelecaoDeUmParticipante()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deleção de um Participante", null, new string[] {
+                        "Participante"});
+#line 17
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "BirthDay",
+                        "Cpf"});
+            table2.AddRow(new string[] {
+                        "Teste",
+                        "23/02/1993",
+                        "42568042850"});
+#line 18
+ testRunner.Given("Que tenha um participante na base com idade valida:", ((string)(null)), table2, "Dado ");
+#line 21
+ testRunner.When("Eu envio o Delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
+#line 22
+ testRunner.Then("A base deve ficar vazia", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
             this.ScenarioCleanup();
         }

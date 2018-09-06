@@ -16,6 +16,8 @@ namespace Tier.Business
             _personRepository = personRepository;
         }
 
+        #region Métodos Publicos
+
         public Person SavePerson(Person person)
         {
             ValidateMaxAge(person);
@@ -26,6 +28,29 @@ namespace Tier.Business
 
             return person;
         }
+
+        public ICollection<Person> GetCollection()
+        {
+            return _personRepository.GetAll().ToList();
+        }
+
+        public Person Get(int Id)
+        {
+            return _personRepository.GetById(Id);
+        }
+
+
+        public void Delete(Person person)
+        {
+            _personRepository.DeleteByCpf(person.Cpf);
+        }
+
+        public void Delete(int id)
+        {
+            _personRepository.Delete(id);
+        }
+
+        #endregion
 
         #region Métodos Privados
         private void ValidateMaxAge(Person person)
@@ -48,10 +73,6 @@ namespace Tier.Business
             }
         }
 
-        public ICollection<Person> GetCollection()
-        {
-            return _personRepository.GetAll().ToList();
-        }
         #endregion
     }
 }

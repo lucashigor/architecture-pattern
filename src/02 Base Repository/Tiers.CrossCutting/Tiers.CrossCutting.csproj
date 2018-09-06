@@ -59,6 +59,10 @@
       <Project>{7EF09166-D7EF-4770-9F4F-B9EF5B4074FE}</Project>
       <Name>Tier.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tier.Service\Tier.Service.csproj">
+      <Project>{610C7CD1-0433-43F3-BD86-5CF2DBB05CB4}</Project>
+      <Name>Tier.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

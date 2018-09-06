@@ -8,5 +8,11 @@ namespace Tier.Business
         Person SavePerson(Person person);
 
         ICollection<Person> GetCollection();
+
+        void Delete(Person person);
+
+        void Delete(int id);
+
+        Person Get(int Id);
     }
 }

@@ -10,6 +10,7 @@ namespace Tier.Repository
         T Update(T entity);
 
         void Delete(T entity);
+        void Delete(int id);
         //void Delete(Expression<Func<T, bool>> where);
 
         T GetById(int id);

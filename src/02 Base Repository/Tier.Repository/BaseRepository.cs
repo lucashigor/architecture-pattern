@@ -67,6 +67,13 @@ namespace Tier.Repository
             Context.SaveChanges();
         }
 
+        public virtual void Delete(int id)
+        {
+            var entity = GetById(id);
+
+            _dbSet.Remove(entity);
+        }
+
         public void Reload(T entity)
         {
             _context.Entry<T>(entity).Reload();

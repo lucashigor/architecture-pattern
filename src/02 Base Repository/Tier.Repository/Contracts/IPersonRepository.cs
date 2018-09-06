@@ -5,5 +5,7 @@ namespace Tier.Repository
     public interface IPersonRepository : IBaseRepository<Person>
     {
         Person GetByCpf(string cpf);
+
+        void DeleteByCpf(string cpf);
     }
 }

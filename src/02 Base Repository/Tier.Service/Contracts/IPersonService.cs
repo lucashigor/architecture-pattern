@@ -8,5 +8,11 @@ namespace Tier.Service
         Person SavePerson(Person person);
 
         ICollection<Person> GetCollection();
+
+        Person Get(int Id);
+
+        void DeletePerson(Person person);
+
+        void DeletePerson(int Id);
     }
 }

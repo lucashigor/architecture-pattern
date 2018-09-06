@@ -1,47 +1,82 @@
-﻿using SimpleInjector;
-using System;
+﻿using System;
 using System.Linq;
+using SimpleInjector;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using Tier.Common;
 using Tier.Entities;
+using Tier.Service;
+using Tiers.Web.Controllers;
 
 namespace ComponentsTests
 {
     [Binding]
     public class PersonComponentTestSteps
-    {
+    { 
         Person person;
 
         Container container;
 
-        [Given(@"Eu tenha inserido um participante com mais de 50 anos:")]
-        public void DadoEuTenhaInseridoUmParticipanteComMaisDeAnos(Table table)
-        {
-            person = table.CreateSet<Person>().First();
-        }
+        Object ret;
 
+        PersonController app;
 
-        [When(@"Eu envio ocorre um erro")]
-        public void QuandoEuEnvioOcorreUmErro()
+        public PersonComponentTestSteps()
         {
+            container = new Container();
+
             Bootstrapper.Configure(container);
 
+            app = new PersonController(container.GetInstance<IPersonService>());
+        }
+
+        [Given(@"Eu tenha inserido um participante com mais idade não permitida:")]
+        public void DadoEuTenhaInseridoUmParticipanteComMaisIdadeNaoPermitida(Table table)
+        {
+            person = table.CreateSet<Person>().First();
+
+            person.BirthDay = DateTime.Today.AddYears(-(Parameters.max_age + 1));
+        }
+
+        [When(@"Eu envio Post")]
+        public void QuandoEuEnvioPost()
+        {
             try
             {
-                //new PersonController(container.GetInstance<IPersonService>()).Post(person);
+                app.Post(person);
             }
-            catch (BusinessException)
+            catch (Exception ex)
             {
-
-                throw;
+                ret = ex;
             }
         }
 
-        [Then(@"eh isso ai")]
-        public void EntaoEhIssoAi()
+        [Then(@"Um erro deve ocorrer")]
+        public void EntaoUmErroDeveOcorrer()
         {
-            //ScenarioContext.Current.Pending();
+            var retorno = (BusinessException)ret;
+        }       
+
+        [Given(@"Que tenha um participante na base com idade valida:")]
+        public void DadoQueTenhaUmParticipanteNaBaseComIdadeValida(Table table)
+        {
+            person = table.CreateSet<Person>().First();
+
+            person.BirthDay = DateTime.Today.AddYears(-(Parameters.warning_max_age - 1));
+
+            app.Post(person);
+        }
+
+        [When(@"Eu envio o Delete")]
+        public void QuandoEuEnvioODelete()
+        {
+            app.Delete(person);
+        }
+
+        [Then(@"A base deve ficar vazia")]
+        public void EntaoABaseDeveFicarVazia()
+        {
+            var a  = app.Get(person.Id);
         }
     }
 }

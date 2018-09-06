@@ -24,5 +24,20 @@ namespace Tier.Service
             
             return person;
         }
+
+        public void DeletePerson(Person person)
+        {
+            _personBusiness.Delete(person);
+        }
+
+        public void DeletePerson(int Id)
+        {
+            _personBusiness.Delete(Id);
+        }
+
+        public Person Get(int Id)
+        {
+            return _personBusiness.Get(Id);
+        }
     }
 }
