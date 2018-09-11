@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
 using System.Web.Http;
 using Tier.Entities;
 using Tier.Service;
@@ -13,6 +15,19 @@ namespace Tiers.Web.Controllers
         {
             personService = _personService;
         }
+
+        private static DefaultContractResolver contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new SnakeCaseNamingStrategy()
+        };
+
+    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+    {
+        ContractResolver = contractResolver,
+        Formatting = Formatting.Indented,
+        NullValueHandling = NullValueHandling.Ignore
+    };
+
         // GET: api/Person
         public IEnumerable<Person> Get()
         {
@@ -20,9 +35,11 @@ namespace Tiers.Web.Controllers
         }
 
         // GET: api/Person/5
-        public Person Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return personService.Get(id);
+            var obj = personService.Get(id);
+
+            return Json(obj, SerializerSettings);
         }
 
         // POST: api/Person

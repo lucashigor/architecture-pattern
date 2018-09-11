@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Tiers.Web
 {
@@ -10,6 +8,9 @@ namespace Tiers.Web
         public static void Register(HttpConfiguration config)
         {
             // Serviços e configuração da API da Web
+            var cors = new EnableCorsAttribute("*", "*", "*");
+
+            config.EnableCors(cors);
 
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();
