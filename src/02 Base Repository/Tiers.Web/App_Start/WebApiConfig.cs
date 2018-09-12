@@ -8,9 +8,7 @@ namespace Tiers.Web
         public static void Register(HttpConfiguration config)
         {
             // Serviços e configuração da API da Web
-            var cors = new EnableCorsAttribute("*", "*", "*");
-
-            config.EnableCors(cors);
+            config.EnableCors();
 
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();

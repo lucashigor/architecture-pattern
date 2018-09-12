@@ -29,9 +29,11 @@ namespace Tiers.Web.Controllers
     };
 
         // GET: api/Person
-        public IEnumerable<Person> Get()
+        public IHttpActionResult Get()
         {
-            return personService.GetCollection();
+            var obj = personService.GetCollection();
+
+            return Json(obj, SerializerSettings);
         }
 
         // GET: api/Person/5
@@ -43,9 +45,11 @@ namespace Tiers.Web.Controllers
         }
 
         // POST: api/Person
-        public void Post([FromBody]Person value)
+        public IHttpActionResult Post([FromBody]Person value)
         {
             personService.SavePerson(value);
+
+            return Json(value, SerializerSettings);
         }
 
         // PUT: api/Person/5
@@ -57,12 +61,6 @@ namespace Tiers.Web.Controllers
         public void Delete(int id)
         {
             personService.DeletePerson(id);
-        }
-
-        // DELETE: api/Person/5
-        public void Delete(Person value)
-        {
-            personService.DeletePerson(value);
         }
     }
 }
