@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Itau.SE4.Commons\Itau.SE4.Commons.csproj" />
+    <ProjectReference Include="..\Itau.SE4.Entities\Itau.SE4.Entities.csproj" />
+    <ProjectReference Include="..\Itau.SE4.Repository\Itau.SE4.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
