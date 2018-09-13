@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Itau.SE4.Entities\Itau.SE4.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>

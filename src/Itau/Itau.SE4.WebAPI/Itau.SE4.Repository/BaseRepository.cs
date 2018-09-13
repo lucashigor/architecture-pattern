@@ -8,7 +8,7 @@ namespace Itau.SE4.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected SE4Context _context;
+        protected DbContext _context;
         protected readonly DbSet<T> _dbSet;
 
         protected IContextFactory _factoryBase
@@ -17,7 +17,7 @@ namespace Itau.SE4.Repository
             private set;
         }
 
-        protected SE4Context Context
+        protected DbContext Context
         {
             get { return _context ?? (_context = _factoryBase.GetContext()); }
         }
@@ -41,6 +41,8 @@ namespace Itau.SE4.Repository
 
         public virtual T Update(T entity)
         {
+            _context.Attach(entity);
+
             _context.Entry(entity).State = EntityState.Modified;
 
             Context.SaveChanges();
@@ -72,6 +74,8 @@ namespace Itau.SE4.Repository
             var entity = GetById(id);
 
             _dbSet.Remove(entity);
+
+            Context.SaveChanges();
         }
 
         public void Reload(T entity)

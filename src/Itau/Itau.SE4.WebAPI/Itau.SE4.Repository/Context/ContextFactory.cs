@@ -1,10 +1,12 @@
-﻿namespace Itau.SE4.Repository
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Itau.SE4.Repository
 {
     public class ContextFactory : IContextFactory
     {
-        SE4Context _context;
+        private DbContext _context;
 
-        public SE4Context GetContext()
+        public DbContext GetContext()
         {
             return _context ?? (_context = new SE4Context());
         }

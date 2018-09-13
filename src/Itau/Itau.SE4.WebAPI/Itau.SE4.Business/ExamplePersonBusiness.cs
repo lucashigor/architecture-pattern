@@ -9,11 +9,14 @@ namespace Itau.SE4.Business
 {
     public class ExamplePersonBusiness : IExamplePersonBusiness
     {
-        IExamplePersonRepository _personRepository;
+        private readonly IExamplePersonRepository _personRepository;
+        private readonly IExamplesMessages _examplesMessages;
 
-        public ExamplePersonBusiness(IExamplePersonRepository personRepository)
+        public ExamplePersonBusiness(IExamplePersonRepository personRepository,
+            IExamplesMessages examplesMessages)
         {
             _personRepository = personRepository;
+            _examplesMessages = examplesMessages;
         }
 
         #region Métodos Publicos
@@ -23,6 +26,17 @@ namespace Itau.SE4.Business
             ValidateMaxAge(person);
 
             _personRepository.Create(person);
+
+            ValidateAdvancedAge(person);
+
+            return person;
+        }
+
+        public ExamplePerson UpdatePerson(ExamplePerson person)
+        {
+            ValidateMaxAge(person);
+
+            _personRepository.Update(person);
 
             ValidateAdvancedAge(person);
 
@@ -57,7 +71,7 @@ namespace Itau.SE4.Business
         {
             if (person.BirthDate < (DateTime.Today.AddYears(- ExamplesConstants.MAX_AGE)))
             {
-                throw new BusinessException(ExamplesMessagesException.IDADE_NAO_PERMITIDA);
+                throw new BusinessException(_examplesMessages.GetIdadeNaoPermitida());
             }
         }
 
@@ -65,7 +79,7 @@ namespace Itau.SE4.Business
         {
             if (person.BirthDate < (DateTime.Today.AddYears(-ExamplesConstants.WARNING_MAX_AGE)))
             {
-                throw new BusinessException(ExamplesMessagesException.IDADE_AVANCADA);
+                throw new BusinessException(_examplesMessages.GetIdadeAvancada());
             }
         }
 

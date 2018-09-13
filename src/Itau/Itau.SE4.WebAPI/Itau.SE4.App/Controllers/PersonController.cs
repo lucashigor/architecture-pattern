@@ -1,7 +1,8 @@
 ﻿using Itau.SE4.Entities;
 using Itau.SE4.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Itau.SE4.App.Controllers
 {
@@ -10,44 +11,62 @@ namespace Itau.SE4.App.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IExamplePersonServices _examplePersonServices;
+        private readonly ILogger<PersonController> _logger;
 
-        public PersonController(IExamplePersonServices examplePersonServices)
+        public PersonController(IExamplePersonServices examplePersonServices,
+                                ILogger<PersonController> logger)
         {
+            _logger = logger;
+
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Calling PersonController");
+            }
+
             _examplePersonServices = examplePersonServices;
         }
         // GET api/values
+        //[Authorize]
         [HttpGet]
-        public ICollection<ExamplePerson> Get()
+        public IActionResult Get()
         {
-            var ret = _examplePersonServices.GetCollection();
+            var obj = _examplePersonServices.GetCollection();
 
-            return ret;
+            return Ok(obj);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var obj = _examplePersonServices.Get(id);
+
+            return Ok(obj);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] ExamplePerson value)
+        public IActionResult Post([FromBody] ExamplePerson value)
         {
-            _examplePersonServices.SavePerson(value);
+            var obj = _examplePersonServices.SavePerson(value);
+
+            return Ok(obj);
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] ExamplePerson value)
         {
+            var obj = _examplePersonServices.UpdatePerson(value);
+
+            return Ok(obj);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _examplePersonServices.Delete(id);
         }
     }
 }

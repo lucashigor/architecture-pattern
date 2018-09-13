@@ -14,5 +14,7 @@ namespace Itau.SE4.Services
         void Delete(int id);
 
         ExamplePerson Get(int Id);
+
+        ExamplePerson UpdatePerson(ExamplePerson person);
     }
 }

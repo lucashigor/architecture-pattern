@@ -6,11 +6,14 @@ namespace Itau.SE4.Services
 {
     public class ExamplePersonServices : IExamplePersonServices
     {
-        IExamplePersonBusiness _examplePersonBusiness;
+        private readonly IExamplePersonBusiness _examplePersonBusiness;
+        private readonly IPersonExampleValidator _personExampleValidator;
 
-        public ExamplePersonServices(IExamplePersonBusiness examplePersonBusiness)
+        public ExamplePersonServices(IExamplePersonBusiness examplePersonBusiness,
+            IPersonExampleValidator personExampleValidator)
         {
             _examplePersonBusiness = examplePersonBusiness;
+            _personExampleValidator = personExampleValidator;
         }
 
         public void Delete(ExamplePerson person)
@@ -35,7 +38,13 @@ namespace Itau.SE4.Services
 
         public ExamplePerson SavePerson(ExamplePerson person)
         {
+            _personExampleValidator.Validar(person);
             return _examplePersonBusiness.SavePerson(person);
+        }
+
+        public ExamplePerson UpdatePerson(ExamplePerson person)
+        {
+            return _examplePersonBusiness.UpdatePerson(person);
         }
     }
 }
