@@ -1,5 +1,7 @@
 ﻿using Itau.SE4.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Itau.SE4.Repository
 {
@@ -15,6 +17,7 @@ namespace Itau.SE4.Repository
         {
 
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
