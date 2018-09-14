@@ -19,8 +19,6 @@ namespace Itau.SE4.Repository
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string value3 = Microsoft.IdentityModel.Protocols.ConfigurationManager.AppSetting["Child_Key"];
-
                 optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\ItauSE4.mdf\";Integrated Security=True;Connect Timeout=30");
             }
         }
