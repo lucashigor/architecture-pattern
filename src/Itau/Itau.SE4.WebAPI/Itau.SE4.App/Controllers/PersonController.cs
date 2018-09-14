@@ -1,6 +1,5 @@
-﻿using Itau.SE4.Entities;
+﻿using Itau.SE4.Domain;
 using Itau.SE4.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -26,7 +25,6 @@ namespace Itau.SE4.App.Controllers
             _examplePersonServices = examplePersonServices;
         }
         // GET api/values
-        //[Authorize]
         [HttpGet]
         public IActionResult Get()
         {

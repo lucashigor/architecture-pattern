@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Itau.SE4.Entities\Itau.SE4.Entities.csproj" />
+    <ProjectReference Include="..\Itau.SE4.Domain\Itau.SE4.Domain.csproj" />
   </ItemGroup>
 
 </Project>

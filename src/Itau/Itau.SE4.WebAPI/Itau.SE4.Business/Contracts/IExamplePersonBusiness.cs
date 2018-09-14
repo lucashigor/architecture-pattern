@@ -1,4 +1,4 @@
-﻿using Itau.SE4.Entities;
+﻿using Itau.SE4.Domain;
 using System.Collections.Generic;
 
 namespace Itau.SE4.Business

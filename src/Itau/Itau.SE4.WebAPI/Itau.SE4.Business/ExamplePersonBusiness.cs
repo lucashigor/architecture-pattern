@@ -1,5 +1,5 @@
-﻿using Itau.SE4.Commons;
-using Itau.SE4.Entities;
+﻿using Itau.SE4.CrossCulting;
+using Itau.SE4.Domain;
 using Itau.SE4.Repository;
 using System;
 using System.Collections.Generic;

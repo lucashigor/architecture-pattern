@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Itau.SE4.Business\Itau.SE4.Business.csproj" />
-    <ProjectReference Include="..\Itau.SE4.Entities\Itau.SE4.Entities.csproj" />
   </ItemGroup>
 
 </Project>

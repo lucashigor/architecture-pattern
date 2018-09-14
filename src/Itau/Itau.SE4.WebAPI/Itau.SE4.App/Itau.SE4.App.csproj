@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Itau.SE4.CrossCulting\Itau.SE4.CrossCulting.csproj" />
+    <ProjectReference Include="..\Itau.SE4.Kernel\Itau.SE4.Kernel.csproj" />
+    <ProjectReference Include="..\Itau.SE4.Log\Itau.SE4.Log.csproj" />
     <ProjectReference Include="..\Itau.SE4.Services\Itau.SE4.Services.csproj" />
   </ItemGroup>
 

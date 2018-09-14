@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Itau.SE4.Business;
-using Itau.SE4.Entities;
+using Itau.SE4.Domain;
 
 namespace Itau.SE4.Services
 {
