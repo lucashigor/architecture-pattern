@@ -5,9 +5,22 @@ namespace Itau.SE4.Repository
 {
     public class SE4Context : DbContext
     {
+        public SE4Context()
+        {
+
+        }
+
+        public SE4Context(DbContextOptions<SE4Context> options)
+            : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\ItauSE4.mdf\";Integrated Security=True;Connect Timeout=30");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\ItauSE4.mdf\";Integrated Security=True;Connect Timeout=30");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
