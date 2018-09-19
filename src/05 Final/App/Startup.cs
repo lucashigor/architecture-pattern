@@ -22,12 +22,20 @@ namespace App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            Boostraper.Configure(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app
-                            , IHostingEnvironment env)
+                            , IHostingEnvironment env
+                            , ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
+            {
+                LogLevel = LogLevel.Debug
+            }));
+
             app.UseMvc();
         }
     }

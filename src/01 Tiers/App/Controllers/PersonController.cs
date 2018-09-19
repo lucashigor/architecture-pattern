@@ -1,7 +1,4 @@
-﻿using Domain;
-using Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
@@ -9,26 +6,15 @@ namespace App.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private readonly IExamplePersonServices _examplePersonServices;
-        private readonly ILogger<PersonController> _logger;
-
-        public PersonController(IExamplePersonServices examplePersonServices,
-                                ILogger<PersonController> logger)
+        public PersonController()
         {
-            _logger = logger;
-
-            if (_logger.IsEnabled(LogLevel.Debug))
-            {
-                _logger.LogDebug("Calling PersonController");
-            }
-
-            _examplePersonServices = examplePersonServices;
         }
+        
         // GET api/values
         [HttpGet]
         public IActionResult Get()
         {
-            var obj = _examplePersonServices.GetCollection();
+            var obj = new string[] { "value1", "value2" };
 
             return Ok(obj);
         }
@@ -37,25 +23,23 @@ namespace App.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var obj = _examplePersonServices.Get(id);
-
-            return Ok(obj);
+            return Ok("value");
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] ExamplePerson value)
+        public IActionResult Post([FromBody] string value)
         {
-            var obj = _examplePersonServices.SavePerson(value);
+            var obj = value;
 
             return Ok(obj);
         }
 
         // PUT api/values/5
         [HttpPut]
-        public IActionResult Put([FromBody] ExamplePerson value)
+        public IActionResult Put([FromBody] string value)
         {
-            var obj = _examplePersonServices.UpdatePerson(value);
+            var obj = value;
 
             return Ok(obj);
         }
@@ -64,7 +48,7 @@ namespace App.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _examplePersonServices.Delete(id);
+
         }
     }
 }
