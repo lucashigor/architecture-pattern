@@ -1,59 +1,43 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
+using System.Collections.Generic;
 
 namespace Services
 {
     public class PackageServices : IPackageServices
     {
-        private readonly IUnitOfWork _unityWork;
+        private readonly IPackageBusiness _packageBusiness;
 
-        public PackageServices(IUnitOfWork unityWork)
+        public PackageServices(IPackageBusiness packageBusiness)
         {
-            _unityWork = unityWork;
+            _packageBusiness = packageBusiness;
         }
 
         public void Delete(int id)
         {
-            _unityWork.PackageRepository.Delete(x => x.Id == id);
-            Commit();
+            _packageBusiness.Delete(id);
         }
 
         public Package Get(int id)
         {
-            return _unityWork.PackageRepository.GetById(id);
+            return _packageBusiness.Get(id);
         }
 
         public ICollection<Package> Get()
         {
-            return _unityWork.PackageRepository.GetAll().ToList();
+            return _packageBusiness.Get();
         }
 
-        public Package Post(Package value)
+        public Package Create(Package value)
         {
-            return _unityWork.PackageRepository.Create(value);
+            return _packageBusiness.Create(value);
         }
 
-        public Package Put(int id, Package value)
+        public Package Update(Package value)
         {
-            var package = _unityWork.PackageRepository.GetById(id);
+            _packageBusiness.Update(value);
 
-            if(value.Name != null)
-            {
-                package.Name = value.Name;
-            }
-
-            _unityWork.PackageRepository.Update(package);
-
-            Commit();
-
-            return package;
-        }
-
-        public void Commit()
-        {
-            _unityWork.Commit();
+            return value;
         }
     }
 }

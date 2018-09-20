@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using EntityPhoto;
+﻿using Domain;
+using System.Collections.Generic;
 
 namespace Services
 {
     public interface IPaymentServices
     {
-        void Delete(ICollection<Payment> collection, bool commit);
-        void Delete(int Id, bool commit);
+        void Delete(ICollection<Payment> collection);
+        void Delete(int Id);
         ICollection<Payment> Get(int idPaymentPlan);
-        Payment Get(int id, int idPaymentPlan);
-        Payment Post(Payment value);
-        Payment Put(int id, Payment value);
+        Payment GetById(int id, int idPaymentPlan);
+        Payment Create(Payment value);
+        Payment Update(Payment value);
     }
 }

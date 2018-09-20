@@ -1,15 +1,12 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class WeddingController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WeddingController : ControllerBase
     {
         private readonly IWeddingServices _weddingServices;
 
@@ -18,36 +15,40 @@ namespace Web.Api.Controllers
             _weddingServices = weddingServices;
         }
 
-        public GetReturn<Wedding> Get()
+        [HttpGet]
+        public IActionResult Get()
         {
-            GetReturn<Wedding> ret = new GetReturn<Wedding>();
-            
-            ret.Values = _weddingServices.GetWedding(1,10, out ret.TotalRegisters);
+            var obj = _weddingServices.GetWedding();
 
-            return ret;
+            return Ok(obj);
         }
 
-        // GET: api/Wedding/5
-        public string Get(int id)
+        [HttpGet("{id}")] //Wedding/5
+        public IActionResult Get(int id)
         {
-            return "value";
+            var obj = _weddingServices.GetWedding(id);
+
+            return Ok(obj);
         }
 
-        // POST: api/Wedding
-        public Wedding Post([FromBody]Wedding value)
+        [HttpPost]//Wedding
+        public IActionResult Post([FromBody]Wedding value)
         {
-            return _weddingServices.Create(value);
+            var obj = _weddingServices.Create(value);
+
+            return Ok(obj);
         }
 
-        // PUT: api/Wedding/5
-        public void Put(int id, [FromBody]Wedding value)
+        [HttpPut]// api/Wedding/5
+        public void Put([FromBody]Wedding value)
         {
+            //var obj = _weddingServices.
         }
 
-        // DELETE: api/Wedding/5
+        [HttpDelete("{id}")]// api/Wedding/5
         public void Delete(int id)
         {
-            _weddingServices.Deletar(id, true);
+            _weddingServices.Delete(id);
         }
     }
 }

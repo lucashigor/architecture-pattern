@@ -1,89 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
+using System.Collections.Generic;
 
 namespace Services
 {
     public class PaymentPlanServices : IPaymentPlanServices
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentPlanBusiness _paymentPlanBusiness;
         private readonly IPaymentServices _paymentServices;
 
-        public PaymentPlanServices(IUnitOfWork unitOfWork, IPaymentServices paymentServices)
+        public PaymentPlanServices(IPaymentPlanBusiness paymentPlanBusiness, IPaymentServices paymentServices)
         {
-            _unitOfWork = unitOfWork;
+            _paymentPlanBusiness = paymentPlanBusiness;
             _paymentServices = paymentServices;
         }
 
-        public void Delete(PaymentPlan PaymentPlan, bool commit)
+        public void Delete(PaymentPlan PaymentPlan)
         {
             var payments = PaymentPlan.Payments;
 
             if (payments != null)
             {
-                _paymentServices.Delete(payments, true);
+                _paymentServices.Delete(payments);
             }
 
-            Delete(PaymentPlan.Id, commit);
+            Delete(PaymentPlan.Id);
         }
 
-        public void Delete(int id, bool commit)
+        public void Delete(int id)
         {
-            _unitOfWork.PaymentPlanRepository.Delete(x => x.Id == id);
-
-            if (commit)
-            {
-                Commit();
-            }
+            _paymentPlanBusiness.Delete(id);
         }
 
         public ICollection<PaymentPlan> Get()
         {
-            return _unitOfWork.PaymentPlanRepository.GetAll().ToList();
+            return _paymentPlanBusiness.Get();
         }
 
         public PaymentPlan Get(int id)
         {
-            return _unitOfWork.PaymentPlanRepository.GetById(id);
+            return _paymentPlanBusiness.Get(id);
         }
 
-        public PaymentPlan Post(PaymentPlan value)
+        public PaymentPlan Create(PaymentPlan value)
         {
-            return _unitOfWork.PaymentPlanRepository.Create(value);
+            return _paymentPlanBusiness.Create(value);
         }
 
-        public PaymentPlan Put(int id, PaymentPlan value)
+        public PaymentPlan Update(PaymentPlan value)
         {
-            var paymentPlan = _unitOfWork.PaymentPlanRepository.GetById(id);
+            _paymentPlanBusiness.Update(value);
 
-            if(value.ExtraValue != null)
-            {
-                paymentPlan.ExtraValue = value.ExtraValue;
-            }
-            if (value.PercentualDiscount != null)
-            {
-                paymentPlan.PercentualDiscount = value.PercentualDiscount;
-            }
-            if (value.Value != null)
-            {
-                paymentPlan.Value = value.Value;
-            }
-            if (value.ValueDiscount != null)
-            {
-                paymentPlan.ValueDiscount = value.ValueDiscount;
-            }
-
-            _unitOfWork.PaymentPlanRepository.Update(paymentPlan);
-
-            Commit();
-
-            return paymentPlan;
-        }
-
-        private void Commit()
-        {
-            _unitOfWork.Commit();
+            return value;
         }
     }
 }

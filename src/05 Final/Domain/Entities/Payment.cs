@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
 namespace Domain
 {
     public class Payment
     {
-        [Key]
         public int Id { get; set; }
 
         public decimal? Value { get; set; }
@@ -18,10 +14,8 @@ namespace Domain
 
         public decimal? PaidValue { get; set; }
 
-        [ForeignKey("PaymentPlan")]
         public int PaymentPlan_Id { get; set; }
 
-        [JsonIgnore]
         public virtual PaymentPlan PaymentPlan { get; set; }
     }
 }

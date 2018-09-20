@@ -1,11 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
     public class Wedding
     {
-        [Key]
         public int Id { get; set; }
 
         public virtual Couple Couple { get; set; }
@@ -25,8 +23,6 @@ namespace Domain
 
         public virtual CommercialContract Contract { get; set; }
 
-        [MaxLength(250)]
         public string ExtraInformation { get; set; }
-
     }
 }

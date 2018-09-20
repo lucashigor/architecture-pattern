@@ -1,68 +1,42 @@
-﻿using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
 
 namespace Services
 {
     public class AddressServices : IAddressServices
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAddressBusiness _addressBusiness;
 
-        public AddressServices(IUnitOfWork unitOfWork)
+        public AddressServices(IAddressBusiness addressBusiness)
         {
-            _unitOfWork = unitOfWork;
+            _addressBusiness = addressBusiness;
         }
 
-        public void Delete(Address address, bool commit)
+        public void Delete(Address address)
         {
-            Delete(address.Id, commit);
+            Delete(address);
         }
 
-        public void Delete(int id, bool commit)
+        public void Delete(int id)
         {
-            _unitOfWork.AddressRepository.Delete(x => x.Id == id);
-
-            if (commit)
-            {
-                Commit();
-            }
+            _addressBusiness.Delete(id);
         }
 
         public Address Get(int id)
         {
-            return _unitOfWork.AddressRepository.GetById(id);
+            return _addressBusiness.Get(id);
         }
 
-        public Address Post(Address value)
+        public Address Create(Address value)
         {
-            return _unitOfWork.AddressRepository.Create(value);
+            return _addressBusiness.Create(value);
         }
 
-        public Address Put(int id, Address value)
+        public Address Update(Address value)
         {
-            var address = _unitOfWork.AddressRepository.GetById(id);
+            _addressBusiness.Update(value);
 
-            if(value.LiberatedTime != null)
-            {
-                address.LiberatedTime = value.LiberatedTime;
-            }
-            if (value.Name != null)
-            {
-                address.Name = value.Name;
-            }
-            if (value.StreetName != null)
-            {
-                address.StreetName = value.StreetName;
-            }
-
-            _unitOfWork.AddressRepository.Update(address);
-
-            return address;
+            return value;
         }
-
-        private void Commit()
-        {
-            _unitOfWork.Commit();
-        }
-
     }
 }

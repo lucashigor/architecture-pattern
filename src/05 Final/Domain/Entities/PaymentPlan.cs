@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
     public class PaymentPlan
     {
-        [Key]
         public int Id { get; set; }
 
         public decimal? Value { get; set; }

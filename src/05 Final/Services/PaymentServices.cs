@@ -1,81 +1,51 @@
-﻿using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Services
 {
     public class PaymentServices : IPaymentServices
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentBusiness _paymentBusiness;
 
-        public PaymentServices(IUnitOfWork unitOfWork)
+        public PaymentServices(IPaymentBusiness paymentBusiness)
         {
-            _unitOfWork = unitOfWork;
+            _paymentBusiness = paymentBusiness;
         }
 
-        public void Delete(ICollection<Payment> collection, bool commit)
+        public void Delete(ICollection<Payment> collection)
         {
             foreach (var item in collection)
             {
-                Delete(item.Id, commit);
+                Delete(item.Id);
             }
         }
 
-        public void Delete(int id, bool commit)
+        public void Delete(int id)
         {
-            _unitOfWork.PaymentRepository.Delete(x => x.Id == id);
-
-            if(commit)
-            {
-                Commit();
-            }
+            _paymentBusiness.Delete(id);
         }
 
         public ICollection<Payment> Get(int idPaymentPlan)
         {
-            return _unitOfWork.PaymentRepository.GetMany(x => x.PaymentPlan_Id == idPaymentPlan).ToList();
+            return _paymentBusiness.GetByPaymentPlanId(idPaymentPlan);
         }
 
-        public Payment Get(int id, int idPaymentPlan)
+        public Payment GetById(int id, int idPaymentPlan)
         {
-            return _unitOfWork.PaymentRepository.Get(x => x.PaymentPlan_Id == idPaymentPlan && x.Id == id);
+            return _paymentBusiness.GetById(id, idPaymentPlan);
         }
 
-        public Payment Post(Payment value)
+        public Payment Create(Payment value)
         {
-            return _unitOfWork.PaymentRepository.Create(value);
+            return _paymentBusiness.Create(value);
         }
 
-        public Payment Put(int id, Payment value)
+        public Payment Update(Payment value)
         {
-            var payment = _unitOfWork.PaymentRepository.Get(x => x.Id == id);
+            _paymentBusiness.Update(value);
 
-            if(value.PaidDate != null)
-            {
-                payment.PaidDate = value.PaidDate;
-            }
-            if (value.PaidValue != null)
-            {
-                payment.PaidValue = value.PaidValue;
-            }
-            if (value.PaymentDate != null)
-            {
-                payment.PaymentDate = value.PaymentDate;
-            }
-            if (value.Value != null)
-            {
-                payment.Value = value.Value;
-            }
-
-            _unitOfWork.PaymentRepository.Update(payment);
-
-            return payment;
-        }
-
-        private void Commit()
-        {
-            _unitOfWork.Commit();
+            return value;
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class PackageController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PackageController : ControllerBase
     {
         private readonly IPackageServices _packageServices;
 
@@ -13,27 +15,27 @@ namespace Web.Api.Controllers
         {
             _packageServices = packageServices;
         }
-
+        [HttpGet]
         public ICollection<Package> Get()
         {
             return _packageServices.Get();
         }
-
+        [HttpGet("{id}")]
         public Package Get(int id)
         {
             return _packageServices.Get(id);
         }
-
+        [HttpPost]
         public Package Post([FromBody]Package value)
         {
-            return _packageServices.Post(value);
+            return _packageServices.Create(value);
         }
-
-        public Package Put(int id, [FromBody]Package value)
+        [HttpPut]
+        public Package Put([FromBody]Package value)
         {
-            return _packageServices.Put(id,value);
+            return _packageServices.Update(value);
         }
-
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _packageServices.Delete(id);

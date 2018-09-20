@@ -1,13 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
 
 namespace Services
 {
     public interface IAddressServices
     {
-        void Delete(Address address, bool commit);
+        void Delete(Address address);
         Address Get(int id);
-        Address Post(Address value);
-        Address Put(int id, Address value);
-        void Delete(int id, bool commit);
+        Address Create(Address value);
+        Address Update(Address value);
+        void Delete(int id);
     }
 }

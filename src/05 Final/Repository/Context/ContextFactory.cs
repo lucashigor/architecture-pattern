@@ -19,24 +19,13 @@ namespace Repository
 
         public DbContext GetContext()
         {
-            if (_feature.IsFeatureEnabled("BancoMemoria"))
-            {
-                var bagulho = new DbContextOptionsBuilder<PhotoAdminContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
+            var connectionString = _configuration.GetConnectionString("PhotoAdminContext");
+
+            var options = new DbContextOptionsBuilder<PhotoAdminContext>()
+                .UseSqlServer(connectionString)
                 .Options;
 
-                return _context ?? (_context = new PhotoAdminContext(bagulho));
-            }
-            else
-            {
-                var connectionString = _configuration.GetConnectionString("PhotoAdminContext");
-
-                var options = new DbContextOptionsBuilder<PhotoAdminContext>()
-                    .UseSqlServer(connectionString)
-                    .Options;
-
-                return _context ?? (_context = new PhotoAdminContext(options));
-            }
+            return _context ?? (_context = new PhotoAdminContext(options));
         }
     }
 }

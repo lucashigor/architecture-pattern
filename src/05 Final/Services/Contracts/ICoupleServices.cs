@@ -1,9 +1,9 @@
-﻿using EntityPhoto;
+﻿using Domain;
 
 namespace Services
 {
     public interface ICoupleServices
     {
-        void Delete(Couple couple, bool commit);
+        void Delete(Couple couple);
     }
 }

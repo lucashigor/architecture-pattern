@@ -1,80 +1,57 @@
-﻿using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Services
 {
     public class EngagedServices : IEngagedServices
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IEngagedBusiness _engagedBusiness;
         private readonly IAddressServices _addressServices;
 
-        public EngagedServices(IUnitOfWork unitOfWork, IAddressServices addressServices)
+        public EngagedServices(IEngagedBusiness engagedBusiness, IAddressServices addressServices)
         {
-            _unitOfWork = unitOfWork;
+            _engagedBusiness = engagedBusiness;
             _addressServices = addressServices;
         }
 
-        public void Delete(Engaged engaged, bool commit)
+        public void Delete(Engaged engaged)
         {
             var address = engaged.MakingOf;
 
-            Delete(engaged.Id, commit);
+            Delete(engaged.Id);
 
             if (address != null)
             {
-                _addressServices.Delete(address, true);
+                _addressServices.Delete(address);
             }
         }
 
-        public void Delete(int id, bool commit)
+        public void Delete(int id)
         {
-            _unitOfWork.EngagedRepository.Delete(x => x.Id == id);
-
-            if (commit)
-            {
-                Commit();
-            }
+            _engagedBusiness.Delete(id);
         }
 
         public ICollection<Engaged> Get()
         {
-            return _unitOfWork.EngagedRepository.GetAll().ToList();
+            return _engagedBusiness.Get();
         }
 
         public Engaged Get(int id)
         {
-            return _unitOfWork.EngagedRepository.GetById(id);
+            return _engagedBusiness.Get(id);
         }
 
-        public Engaged Post(Engaged value)
+        public Engaged Create(Engaged value)
         {
-            return _unitOfWork.EngagedRepository.Create(value);
+            return _engagedBusiness.Create(value);
         }
 
-        public Engaged Put(int id, Engaged value)
+        public Engaged Update(Engaged value)
         {
-            var engaged = _unitOfWork.EngagedRepository.GetById(id);
+            _engagedBusiness.Update(value);
 
-            if (value.Name != null)
-            {
-                engaged.Name = value.Name;
-            }
-
-            if (value.MakingOf != null)
-            {
-                _addressServices.Put(engaged.Id, value.MakingOf);
-            }
-
-            _unitOfWork.EngagedRepository.Update(engaged);
-
-            return engaged;
-        }
-
-        private void Commit()
-        {
-            _unitOfWork.Commit();
+            return value;
         }
     }
 }

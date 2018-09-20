@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using EntityPhoto;
+﻿using Domain;
+using System.Collections.Generic;
 
 namespace Services
 {
@@ -7,7 +7,7 @@ namespace Services
     {
         Wedding Create(Wedding _wedding);
         Wedding GetWedding(int id);
-        ICollection<Wedding> GetWedding(int pageIndex, int pagesize, out int totalPage);
-        void Deletar(int id, bool commit);
+        ICollection<Wedding> GetWedding();
+        void Delete(int id);
     }
 }

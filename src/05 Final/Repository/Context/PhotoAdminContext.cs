@@ -5,9 +5,14 @@ namespace Repository
 {
     public class PhotoAdminContext : DbContext
     {
-        private PhotoAdminContext()
+        public PhotoAdminContext()
         {
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\PhotoAdminContext.mdf\";Integrated Security=True;Connect Timeout=30");
         }
 
         public PhotoAdminContext(DbContextOptions<PhotoAdminContext> options)
@@ -30,9 +35,67 @@ namespace Repository
                 etd.Property(c => c.BirthDate).HasColumnName("PER_BIRTHDATE").HasMaxLength(11);
             });
 
+            modelBuilder.Entity<Address>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.Name).HasMaxLength(100);
+                etd.Property(c => c.StreetName).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Couple>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+            });
+
+            modelBuilder.Entity<DeliveryBox>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Engaged>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Package>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PaymentPlan>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+            });
+
+            modelBuilder.Entity<Wedding>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.ExtraInformation).HasMaxLength(300);
+            });
+
+            modelBuilder.Entity<CommercialContract>(etd =>
+            {
+                etd.Property(c => c.Id).UseSqlServerIdentityColumn();
+                etd.Property(c => c.Name).HasMaxLength(100);
+                etd.Property(c => c.Path).HasMaxLength(255);
+            });
+
+
         }
 
         public virtual DbSet<ExamplePerson> ExamplePerson { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Couple> Couples { get; set; }
+        public virtual DbSet<DeliveryBox> DeliveryBoxes { get; set; }
+        public virtual DbSet<Engaged> Engageds { get; set; }
+        public virtual DbSet<Package> Packages { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<PaymentPlan> PaymentPlans { get; set; }
+        public virtual DbSet<Wedding> Weddings { get; set; }
+        public virtual DbSet<CommercialContract> CommercialContracts { get; set; }
     }
 }
 

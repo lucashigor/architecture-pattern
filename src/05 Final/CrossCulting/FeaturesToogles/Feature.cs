@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using FeatureToggle.Core;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CrossCulting
 {
@@ -19,7 +16,7 @@ namespace CrossCulting
             var featureValue = _configuration[$"Features:{feature}"];
             if (string.IsNullOrWhiteSpace(featureValue))
             {
-                throw new ToggleConfigurationError(feature);
+                throw new Exception(feature);
             }
 
             return bool.Parse(featureValue);

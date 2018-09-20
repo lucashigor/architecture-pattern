@@ -1,15 +1,12 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class AddressController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AddressController : ControllerBase
     {
         private readonly IAddressServices _addressServices;
 
@@ -18,28 +15,28 @@ namespace Web.Api.Controllers
             _addressServices = addressServices;
         }
 
-        // GET: api/Address/5
+        [HttpGet("{id}")] //Address/5
         public Address Get(int id)
         {
             return _addressServices.Get(id);
         }
 
-        // POST: api/Address
+        [HttpPost]//Address
         public void Post([FromBody]Address value)
         {
-            _addressServices.Post(value);
+            _addressServices.Create(value);
         }
 
-        // PUT: api/Address/5
-        public void Put(int id, [FromBody]Address value)
+        [HttpPut]// api/Address/5
+        public void Put([FromBody]Address value)
         {
-            _addressServices.Put(id, value);
+            _addressServices.Update(value);
         }
 
-        // DELETE: api/Address/5
+        [HttpDelete("{id}")]// api/Address/5
         public void Delete(int id)
         {
-            _addressServices.Delete(id, true);
+            _addressServices.Delete(id);
         }
     }
 }

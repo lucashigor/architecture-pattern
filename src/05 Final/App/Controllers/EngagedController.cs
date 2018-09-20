@@ -1,11 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class EngagedController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EngagedController : ControllerBase
     {
         private readonly IEngagedServices _engagedServices;
 
@@ -14,34 +16,34 @@ namespace Web.Api.Controllers
             _engagedServices = engagedServices;
         }
 
-        // GET: api/Engaged
+        [HttpGet] //Engaged
         public IEnumerable<Engaged> Get()
         {
             return _engagedServices.Get();
         }
 
-        // GET: api/Engaged/5
+        [HttpGet("{id}")] //Engaged/5
         public Engaged Get(int id)
         {
             return _engagedServices.Get(id);
         }
 
-        // POST: api/Engaged
+        [HttpPost]//Engaged
         public void Post([FromBody]Engaged value)
         {
-            _engagedServices.Post(value);
+            _engagedServices.Create(value);
         }
 
-        // PUT: api/Engaged/5
-        public Engaged Put(int id, [FromBody]Engaged value)
+        [HttpPut]// api/Engaged/5
+        public Engaged Put([FromBody]Engaged value)
         {
-            return _engagedServices.Put(id,value);
+            return _engagedServices.Update(value);
         }
 
-        // DELETE: api/Engaged/5
+        [HttpDelete("{id}")]// api/Engaged/5
         public void Delete(int id)
         {
-            _engagedServices.Delete(id, true);
+            _engagedServices.Delete(id);
         }
     }
 }

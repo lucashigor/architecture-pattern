@@ -43,7 +43,7 @@ namespace App.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPost]//
         public IActionResult Post([FromBody] ExamplePerson value)
         {
             var obj = _examplePersonServices.SavePerson(value);

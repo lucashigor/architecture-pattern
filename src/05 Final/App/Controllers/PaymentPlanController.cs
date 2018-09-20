@@ -1,11 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class PaymentPlanController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PaymentPlanController : ControllerBase
     {
         private readonly IPaymentPlanServices _paymentPlanServices;
 
@@ -14,34 +16,34 @@ namespace Web.Api.Controllers
             _paymentPlanServices = paymentPlanServices;
         }
 
-        // GET: api/PaymentPlan
+        [HttpGet] //PaymentPlan
         public ICollection<PaymentPlan> Get()
         {
             return _paymentPlanServices.Get();
         }
 
-        // GET: api/PaymentPlan/5
+        [HttpGet("{id}")] //PaymentPlan/5
         public PaymentPlan Get(int id)
         {
             return _paymentPlanServices.Get(id);
         }
 
-        // POST: api/PaymentPlan
+        [HttpPost]//PaymentPlan
         public PaymentPlan Post([FromBody]PaymentPlan value)
         {
-            return _paymentPlanServices.Post(value);
+            return _paymentPlanServices.Create(value);
         }
 
-        // PUT: api/PaymentPlan/5
-        public PaymentPlan Put(int id, [FromBody]PaymentPlan value)
+        [HttpPut]// api/PaymentPlan/5
+        public PaymentPlan Put([FromBody]PaymentPlan value)
         {
-            return _paymentPlanServices.Put(id,value);
+            return _paymentPlanServices.Update(value);
         }
 
-        // DELETE: api/PaymentPlan/5
+        [HttpDelete("{id}")]// api/PaymentPlan/5
         public void Delete(int id)
         {
-            _paymentPlanServices.Delete(id, true);
+            _paymentPlanServices.Delete(id);
         }
     }
 }

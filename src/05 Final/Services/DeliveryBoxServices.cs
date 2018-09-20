@@ -1,61 +1,43 @@
-﻿using System.Collections.Generic;
-using DBAccess;
-using EntityPhoto;
+﻿using Business;
+using Domain;
+using System.Collections.Generic;
 
 namespace Services
 {
     public class DeliveryBoxServices : IDeliveryBoxServices
     {
-        private readonly IUnitOfWork _unityWork;
+        private readonly IDeliveryBoxBusiness _deliveryBoxBusiness;
 
-        public DeliveryBoxServices(IUnitOfWork unityWork)
+        public DeliveryBoxServices(IDeliveryBoxBusiness deliveryBoxBusiness)
         {
-            _unityWork = unityWork;
+            _deliveryBoxBusiness = deliveryBoxBusiness;
         }
 
-        public void Delete(int id, bool commit)
+        public void Delete(int id)
         {
-            _unityWork.DeliveryBoxRepository.Delete(x => x.Id == id);
-
-            if (commit)
-            {
-                Commit();
-            }
+            _deliveryBoxBusiness.Delete(id);
         }
 
         public DeliveryBox Get(int id)
         {
-            return _unityWork.DeliveryBoxRepository.GetById(id);
+            return _deliveryBoxBusiness.Get(id);
         }
 
         public IEnumerable<DeliveryBox> Get()
         {
-            return _unityWork.DeliveryBoxRepository.GetAll();
+            return _deliveryBoxBusiness.Get();
         }
 
-        public DeliveryBox Post(DeliveryBox value)
+        public DeliveryBox Create(DeliveryBox value)
         {
-            return _unityWork.DeliveryBoxRepository.Create(value);
+            return _deliveryBoxBusiness.Create(value);
         }
 
-        public DeliveryBox Put(int id, DeliveryBox value)
+        public DeliveryBox Update(DeliveryBox value)
         {
-            var deliveryBox = _unityWork.DeliveryBoxRepository.GetById(id);
+            _deliveryBoxBusiness.Update(value);
 
-            if (value.Name != null)
-            {
-                deliveryBox.Name = value.Name ;
-            }
-
-            _unityWork.DeliveryBoxRepository.Update(deliveryBox);
-            Commit();
-
-            return deliveryBox;
-        }
-
-        private void Commit()
-        {
-            _unityWork.Commit();
+            return value;
         }
     }
 }

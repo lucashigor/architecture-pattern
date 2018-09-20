@@ -1,14 +1,14 @@
-﻿using EntityPhoto;
+﻿using Domain;
 using System.Collections.Generic;
 
 namespace Services
 {
     public interface IDeliveryBoxServices
     {
-        void Delete(int id, bool commit);
+        void Delete(int id);
         IEnumerable<DeliveryBox> Get();
         DeliveryBox Get(int id);
-        DeliveryBox Post(DeliveryBox value);
-        DeliveryBox Put(int id, DeliveryBox value);
+        DeliveryBox Create(DeliveryBox value);
+        DeliveryBox Update(DeliveryBox value);
     }
 }

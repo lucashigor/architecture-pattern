@@ -1,4 +1,4 @@
-﻿using EntityPhoto;
+﻿using Domain;
 using System.Collections.Generic;
 
 namespace Services
@@ -7,9 +7,8 @@ namespace Services
     {
         Package Get(int id);
         ICollection<Package> Get();
-        Package Post(Package value);
-        Package Put(int id, Package value);
+        Package Create(Package value);
+        Package Update(Package value);
         void Delete(int id);
     }
-
 }

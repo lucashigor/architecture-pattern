@@ -1,11 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class PaymentController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PaymentController : ControllerBase
     {
         private readonly IPaymentServices _paymentServices;
 
@@ -14,34 +16,34 @@ namespace Web.Api.Controllers
             _paymentServices = paymentServices;
         }
 
-        // GET: api/Payment
-        public IEnumerable<Payment> Get(int idPaymentPlan)
+        [HttpGet("{id}")] //Payment
+        public IEnumerable<Payment> Get(int id)
         {
-          return _paymentServices.Get(idPaymentPlan);
+          return _paymentServices.Get(id);
         }
 
-        // GET: api/Payment/5
+        [HttpGet("{id},{idPaymentPlan}")] //Payment/5
         public Payment Get(int id, int idPaymentPlan)
         {
-            return _paymentServices.Get(id, idPaymentPlan);
+            return _paymentServices.GetById(id, idPaymentPlan);
         }
 
-        // POST: api/Payment
+        [HttpPost]//Payment
         public void Post([FromBody]Payment value)
         {
-            _paymentServices.Post(value);
+            _paymentServices.Create(value);
         }
 
-        // PUT: api/Payment/5
-        public void Put(int id, [FromBody]Payment value)
+        [HttpPut]// api/Payment/5
+        public void Put([FromBody]Payment value)
         {
-            _paymentServices.Put(id, value);
+            _paymentServices.Update(value);
         }
 
-        // DELETE: api/Payment/5
+        [HttpDelete("{id}")]// api/Payment/5
         public void Delete(int id)
         {
-            _paymentServices.Delete(id, true);
+            _paymentServices.Delete(id);
         }
     }
 }

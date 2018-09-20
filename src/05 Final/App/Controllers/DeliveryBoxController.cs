@@ -1,11 +1,13 @@
-﻿using EntityPhoto;
+﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace Web.Api.Controllers
 {
-    public class DeliveryBoxController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DeliveryBoxController : ControllerBase
     {
         private readonly IDeliveryBoxServices _deliveryBoxServices;
 
@@ -14,34 +16,34 @@ namespace Web.Api.Controllers
             _deliveryBoxServices = deliveryBoxServices;
         }
 
-        // GET: api/DeliveryBox
+        [HttpGet] //DeliveryBox
         public IEnumerable<DeliveryBox> Get()
         {
             return _deliveryBoxServices.Get();
         }
 
-        // GET: api/DeliveryBox/5
+        [HttpGet("{id}")] //DeliveryBox/5
         public DeliveryBox Get(int id)
         {
             return _deliveryBoxServices.Get(id);
         }
 
-        // POST: api/DeliveryBox
+        [HttpPost]//DeliveryBox
         public DeliveryBox Post([FromBody]DeliveryBox value)
         {
-            return _deliveryBoxServices.Post(value);
+            return _deliveryBoxServices.Create(value);
         }
 
-        // PUT: api/DeliveryBox/5
-        public DeliveryBox Put(int id, [FromBody]DeliveryBox value)
+        [HttpPut]// api/DeliveryBox/5
+        public DeliveryBox Put([FromBody]DeliveryBox value)
         {
-            return _deliveryBoxServices.Put(id, value);
+            return _deliveryBoxServices.Update(value);
         }
 
-        // DELETE: api/DeliveryBox/5
+        [HttpDelete("{id}")]// api/DeliveryBox/5
         public void Delete(int id)
         {
-            _deliveryBoxServices.Delete(id, true);
+            _deliveryBoxServices.Delete(id);
         }
     }
 }
