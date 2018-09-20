@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace CrossCulting
+﻿namespace CrossCulting
 {
-    public static class ExamplesConstants
+    public class ExamplesConstants : IExamplesConstants
     {
-        public static readonly int MAX_AGE = 50;
-        public static readonly int WARNING_MAX_AGE = 45;
+        public int GetMaxAge() => (50);
+        public int GetWarningMaxAge() => (45);
     }
 }

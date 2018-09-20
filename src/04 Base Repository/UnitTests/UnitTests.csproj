@@ -18,6 +18,7 @@
     <ProjectReference Include="..\CrossCulting\CrossCulting.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\TestsCommons\TestsCommons.csproj" />
   </ItemGroup>
 
 </Project>

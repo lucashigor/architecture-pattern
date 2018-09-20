@@ -5,54 +5,62 @@ using Repository;
 using Moq;
 using System;
 using Xunit;
+using TestsCommons;
 
 namespace UnitTests
 {
     public class PersonBursinessTests
     {
         Mock<IExamplePersonRepository> _personRepository;
-        ExamplesMessages _examplesMessages;
+        Mock<IExamplesMessages> _examplesMessages;
+        Mock<IExamplesConstants> _examplesConstants;
 
         public PersonBursinessTests()
         {
-            _examplesMessages = new ExamplesMessages();
+            _examplesMessages = new Mock<IExamplesMessages>();
+
+            _examplesMessages.Setup(x => x.GetIdadeNaoPermitida()).Returns("GetIdadeNaoPermitida");
+            _examplesMessages.Setup(x => x.GetIdadeAvancada()).Returns("GetIdadeAvancada");
+
+            _examplesConstants = new Mock<IExamplesConstants>();
+
+            _examplesConstants.Setup(x => x.GetMaxAge()).Returns(50);
+            _examplesConstants.Setup(x => x.GetWarningMaxAge()).Returns(45);
+
         }
 
         [Fact]
-        public void ValidateMaxAge_ParticipanteForaDaIdade_test()
+        public void ValidateMaxAge_ParticipanteForaDaIdade_Ex_test()
         {
             //Setup
             _personRepository = new Mock<IExamplePersonRepository>();
 
-            var app = new ExamplePersonBusiness(_personRepository.Object, _examplesMessages);
+            var app = new ExamplePersonBusiness(_personRepository.Object, _examplesMessages.Object, _examplesConstants.Object);
 
-            var person = new ExamplePerson()
-            {
-                Name = "Usuario 1",
-                BirthDate = DateTime.Today.AddYears(-(ExamplesConstants.MAX_AGE + 1))
-            };
+            var person = GenerateEntity.GenerateExamplePerson(null
+                                                             ,null
+                                                             ,DateTime.Today.AddYears(-(_examplesConstants.Object.GetMaxAge() + 1))
+                                                             ,null);
 
             //Fact
             BusinessException ex = Assert.Throws<BusinessException>(() => app.SavePerson(person));
 
             //Assert
-            Assert.Equal(_examplesMessages.GetIdadeNaoPermitida(), ex.Message);
+            Assert.Equal(_examplesMessages.Object.GetIdadeNaoPermitida(), ex.Message);
         }
 
         [Fact]
-        public void ValidateAvancedAge_ParticipanteDentroDaIdadeWarningDate_test()
+        public void ValidateAvancedAge_ParticipanteDentroDaIdadeMasWarningDate_Ex_test()
         {
             //Setup
             _personRepository = new Mock<IExamplePersonRepository>();
 
-            var app = new ExamplePersonBusiness(_personRepository.Object, _examplesMessages);
+            var app = new ExamplePersonBusiness(_personRepository.Object, _examplesMessages.Object, _examplesConstants.Object);
 
-            var person = new ExamplePerson()
-            {
-                Id = 1,
-                Name = "Usuario 1",
-                BirthDate = DateTime.Today.AddYears(-(ExamplesConstants.WARNING_MAX_AGE + 1))
-            };
+            var person = GenerateEntity.GenerateExamplePerson(null
+                                                             , null
+                                                             , DateTime.Today.AddYears(-(_examplesConstants.Object.GetWarningMaxAge() + 1))
+                                                             , null);
 
             _personRepository.Setup(x => x.Create(It.IsAny<ExamplePerson>())).Returns(person);
 
@@ -60,8 +68,27 @@ namespace UnitTests
             BusinessException ex = Assert.Throws<BusinessException>(() => app.SavePerson(person));
 
             //Assert
-            Assert.Equal(_examplesMessages.GetIdadeAvancada(), ex.Message);
+            Assert.Equal(_examplesMessages.Object.GetIdadeAvancada(), ex.Message);
         }
-        
+
+        [Fact]
+        public void ValidateAvancedAge_ParticipanteDentroDaIdade_Success_test()
+        {
+            //Setup
+            _personRepository = new Mock<IExamplePersonRepository>();
+
+            var app = new ExamplePersonBusiness(_personRepository.Object, _examplesMessages.Object, _examplesConstants.Object);
+
+            var person = GenerateEntity.GenerateExamplePerson(null
+                                                             , null
+                                                             , DateTime.Today.AddYears(-(_examplesConstants.Object.GetWarningMaxAge() - 1))
+                                                             , null);
+
+            _personRepository.Setup(x => x.Create(It.IsAny<ExamplePerson>())).Returns(person);
+
+            //Fact
+            app.SavePerson(person);
+        }
+
     }
 }

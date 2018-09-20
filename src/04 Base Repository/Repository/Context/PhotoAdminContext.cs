@@ -5,7 +5,7 @@ namespace Repository
 {
     public class PhotoAdminContext : DbContext
     {
-        public PhotoAdminContext()
+        private PhotoAdminContext()
         {
 
         }
@@ -14,14 +14,6 @@ namespace Repository
             : base(options)
         {
 
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"D:\\ItauSE4.mdf\";Integrated Security=True;Connect Timeout=30");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

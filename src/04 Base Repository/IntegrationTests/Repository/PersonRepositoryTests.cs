@@ -1,83 +1,54 @@
-using Domain;
+using Microsoft.Extensions.DependencyInjection;
 using Repository;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
+using TestsCommons;
 using Xunit;
 
 namespace IntegrationTests
 {
-    public class PersonRepositoryTests
+    public class PersonRepositoryTests : TesteBase
     {
-        protected Mock<IContextFactory> _factory;
-        protected PhotoAdminContext _context;
+        protected ExamplePersonRepository app;
+
+        public PersonRepositoryTests()
+        {
+            app = new ExamplePersonRepository(serviceProvider.GetService<IContextFactory>());
+        }
 
         [Fact]
         public void CreatePersonOnRepository()
         {
-            //
-            var options = new DbContextOptionsBuilder<PhotoAdminContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
-
-            _factory = new Mock<IContextFactory>();
-
-            _context = new PhotoAdminContext(options);
-
-            _factory.Setup(x => x.GetContext()).Returns(_context);
-
-            var app = new ExamplePersonRepository(_factory.Object);
-            var cpf = "121.230.200-10";
-
-            var person = new ExamplePerson()
-            {
-                Name = "Usuario 1",
-                BirthDate = DateTime.Today,
-                Cpf = cpf
-            };
+            //Setup
+            var person = GenerateEntity.GenerateExamplePerson( null
+                                                             , null
+                                                             , null
+                                                             , null);
 
             //fact
             app.Create(person);
 
             //Assert
             Assert.NotEqual(0, person.Id);
+            app.Delete(person);
         }
 
         [Fact]
         public void DeletePersonOnRepository()
         {
-            //
-            var options = new DbContextOptionsBuilder<PhotoAdminContext>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
-                .Options;
+            //Setup
+            var cpf = "121.230.200-11";
 
-            _factory = new Mock<IContextFactory>();
-
-            _context = new PhotoAdminContext(options);
-
-            _factory.Setup(x => x.GetContext()).Returns(_context);
-
-            var app = new ExamplePersonRepository(_factory.Object);
-            var cpf = "121.230.200-10";
-
-            var person = new ExamplePerson()
-            {
-                Name = "Usuario 1",
-                BirthDate = DateTime.Today,
-                Cpf = cpf
-            };
+            var person = GenerateEntity.GenerateExamplePerson(null
+                                                             , null
+                                                             , null
+                                                             , cpf);
 
             app.Create(person);
 
-            var ret = app.GetByCpf(cpf);
-
-            Assert.Equal(cpf, ret.Cpf);
-
             //fact
 
-            app.Delete(ret);
+            app.Delete(person);
 
-            ret = app.GetByCpf(cpf);
+            var ret = app.GetByCpf(cpf);
 
             Assert.Null(ret);
         }

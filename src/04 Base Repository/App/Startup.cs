@@ -23,6 +23,8 @@ namespace App
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSingleton<IConfiguration>(Configuration);
+
             Boostraper.Configure(services);
         }
 

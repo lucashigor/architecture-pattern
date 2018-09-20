@@ -1,9 +1,9 @@
 ﻿using Business;
 using CrossCulting;
 using Domain;
+using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Kernel
 {
@@ -26,8 +26,9 @@ namespace Kernel
             services.AddTransient<IPersonExampleValidator, PersonExampleValidator>();
 
             //Commons
+            services.AddSingleton<IExamplesConstants, ExamplesConstants>();
             services.AddSingleton<IExamplesMessages, ExamplesMessages>();
-
+            services.AddSingleton<IFeature, Feature>();
         }
     }
 }

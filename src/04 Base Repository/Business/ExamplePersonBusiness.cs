@@ -11,12 +11,15 @@ namespace Business
     {
         private readonly IExamplePersonRepository _personRepository;
         private readonly IExamplesMessages _examplesMessages;
+        private readonly IExamplesConstants _examplesConstants;
 
         public ExamplePersonBusiness(IExamplePersonRepository personRepository,
-            IExamplesMessages examplesMessages)
+            IExamplesMessages examplesMessages,
+            IExamplesConstants examplesConstants)
         {
             _personRepository = personRepository;
             _examplesMessages = examplesMessages;
+            _examplesConstants = examplesConstants;
         }
 
         #region Métodos Publicos
@@ -69,7 +72,7 @@ namespace Business
         #region Métodos Privados
         private void ValidateMaxAge(ExamplePerson person)
         {
-            if (person.BirthDate < (DateTime.Today.AddYears(- ExamplesConstants.MAX_AGE)))
+            if (person.BirthDate < (DateTime.Today.AddYears(- _examplesConstants.GetMaxAge())))
             {
                 throw new BusinessException(_examplesMessages.GetIdadeNaoPermitida());
             }
@@ -77,7 +80,7 @@ namespace Business
 
         private void ValidateAdvancedAge(ExamplePerson person)
         {
-            if (person.BirthDate < (DateTime.Today.AddYears(-ExamplesConstants.WARNING_MAX_AGE)))
+            if (person.BirthDate < (DateTime.Today.AddYears(-_examplesConstants.GetWarningMaxAge())))
             {
                 throw new BusinessException(_examplesMessages.GetIdadeAvancada());
             }
